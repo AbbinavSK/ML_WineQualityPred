@@ -5,7 +5,7 @@ library(car)
 library(MASS)
 
 # Loading winequality-red.csv and winequality-white.csv
-red_data = read.csv2("C:\\Users\\Abbin\\OneDrive\\Desktop\\Sem 5\\StatsforDS\\wine+quality\\winequality-red.csv")
+red_data = read.csv2("data\\winequality-red.csv")
 
 # Convert datatype of all variables as numeric
 red_data <- data.frame(lapply(lapply(red_data, as.character), as.numeric))
