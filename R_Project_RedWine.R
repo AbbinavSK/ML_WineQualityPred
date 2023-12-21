@@ -5,7 +5,7 @@ library(car)
 library(MASS)
 
 # Loading winequality-red.csv and winequality-white.csv
-red_data = read.csv2("data\\winequality-red.csv")
+red_data = read.csv2("C:\\Users\\Abbin\\OneDrive\\Desktop\\Sem 5\\StatsforDS\\wine+quality\\winequality-red.csv")
 
 # Convert datatype of all variables as numeric
 red_data <- data.frame(lapply(lapply(red_data, as.character), as.numeric))
@@ -214,3 +214,56 @@ confusion_mat
 
 accuracy = sum(pred6$class==test$quality)/nrow(test)
 accuracy
+#-------------------------------------------------------------------------------
+
+## Exp4: Regression and LDA, input data with only alcohol
+
+#Regression
+fit7 = lm(quality~alcohol, data=train)
+
+sum7 = summary(fit7) #Summary of fit
+coef7 = sum7$coefficients
+
+test$pred7=predict(fit7,newdata = test) #Test input data prediction
+test$pred7=round(test$pred7, digit=0)
+
+confusion_mat = as.matrix(table(Actual_Values = test$quality, Predicted_Values = test$pred7)) 
+confusion_mat
+
+#Accuracy calculated using mean of correct predictions
+accuracy = sum(test$pred7==test$quality)/nrow(test)
+accuracy
+
+#Root mean square error score
+RMSE = sqrt(mean((test$pred7 - test$quality)^2))
+RMSE
+
+#Mean absolute deviation
+MAD = mean(abs(test$pred7 - test$quality))
+MAD
+
+#Linear Discriminant Analysis
+fit8 = lda(quality~alcohol, data=train)
+fit8
+
+pred8=predict(fit8,newdata = test)
+
+data.frame(pred8)[1:5,]
+
+confusion_mat = as.matrix(table(Actual_Values = test$quality, Predicted_Values = pred8$class)) 
+confusion_mat
+
+accuracy = sum(pred8$class==test$quality)/nrow(test)
+accuracy
+#-------------------------------------------------------------------------------
+# Does the wine quality increase with greater alcoholic content, less pH and 
+# more citric acid ?
+
+data_test = data[1:20,]
+data_test$alcohol = 3.0
+data_test$pH = 1
+data_test$citric_acid = 2.5
+pred = predict(fit,newdata = data_test)
+pred
+
+#Ans: With increase in alcoholic content, less pH and more citric acid we notice an increase in quality
